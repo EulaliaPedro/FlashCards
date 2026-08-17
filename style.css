@@ -100,3 +100,20 @@ button:active {
   flex-shrink: 0;
   margin-top: 50px;
 }
+
+#note-range {
+  display: flex;
+  flex-direction: column;
+  /* move this section to the left since in the HTML the note-ranger is created after the flahcard-container
+  goes from 2nd to 1st*/
+  order: -1;
+  margin-right: 20%;
+  margin-bottom: 10%;
+  width: 15%;
+}
+#note-range button {
+  margin-top: 20%;
+  margin-bottom: 20%;
+  padding-top: 10%;
+  padding-bottom: 10%;
+}
