@@ -3,34 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Flashcard Example</title>
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="test.css" />
   </head>
-
   <body>
+    <div id="note-range">
+      <button id="low-range">low range</button>
+      <button id="middle-range">middle range</button>
+      <button id="higher-range">higher range</button>
+    </div>
     <div class="flashcard-container">
-      <h1>Flashcard</h1>
       <div id="flashcard" class="flashcard">
         <div class="front">
-          <p id="question">Please Pick A Card Set!</p>
+          <p id="Question"></p>
         </div>
         <div class="back">
           <img id="answer-img" src="" alt="Answer" />
         </div>
       </div>
+
       <div id="buttons">
-        <button id="flip-card">Flip Card</button>
-        <button id="next-card">Next</button>
+        <div id="option">
+          <button id="back-card">Shuffle</button>
+          <button id="next-card">Next</button>
+        </div>
+        <div id="shuffle">
+          <button id="shuffle-card">Shuffle</button>
+        </div>
+        <div id="audio">
+          <button id="hear-note">Note</button>
+          <button id="record">Record</button>
+        </div>
       </div>
     </div>
-    <div id="note-range">
-      <button id="low-range">low range</button>
-      <button id="middle-range">middle range</button>
-      <button id="higher-range">higer range</button>
-    </div>
-    <script src="script.js"></script>
+    <script src="test.js"></script>
   </body>
 </html>
