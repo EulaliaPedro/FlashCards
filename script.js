@@ -143,43 +143,77 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentSet = card_Sets.start; //default set
   let currentCard_Index = 0;
 
+  let recordAudio = false;
+  let recording = false;
+  let recorder = null;
+  let stream = null;
+  let chunks = [];
+  let readyMic = false;
+
   const flashcardElement = document.getElementById("flashcard");
   const questionElement = document.getElementById("Question");
   const answerImg = document.getElementById("answer-img");
   const play_audio = document.getElementById("hear-note");
 
+  // this function will allow the cards to appear on the screen
   function loadCard() {
     const card = currentSet[currentCard_Index];
     questionElement.innerText = card.question;
     answerImg.src = card.answer;
-    flashcardElement.classList.remove("is-flipped");
+    flashcardElement.classList.remove("is-flipped"); //will show the front of the card wil each switch
   }
 
+  //in this function, based on the card set chosen, the cards in the set will appear
   function switchRange(setName) {
     currentSet = card_Sets[setName];
     currentCard_Index = 0;
     loadCard(currentCard_Index);
   }
+
   //WANT TO USE THIS FOR THE SHUFFLE FEATURE
   //document.getElementById("shuffle-card").addEventListener("click", () => {
   //  flashcardElement.classList.toggle("is-flipped");
   //});
 
-  //WHEN THE FLASHCARD IS CLICKED IT WILL FLIPP
+  // WHEN THE FLASHCARD IS CLICKED IT WILL FLIPP and show the answer
   flashcardElement.addEventListener("click", () => {
     flashcardElement.classList.toggle("is-flipped");
   });
 
+  // when the 'next-card' button is clicked, a new card will appear
   document.getElementById("next-card").addEventListener("click", () => {
     currentCard_Index = (currentCard_Index + 1) % currentSet.length;
     loadCard(currentCard_Index);
   });
 
+  // when the 'back-card' button is clicked, a new card will appear
+  document.getElementById("back-card").addEventListener("click", () => {
+    currentCard_Index = (currentCard_Index - 1) % currentSet.length;
+    loadCard(currentCard_Index);
+  });
+
+  // when the 'shuffle-card' button is clicked, a new card will appear
+  document.getElementById("shuffle-card").addEventListener("click", () => {
+    for (let i = currentSet.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [currentSet[i], currentSet[j]] = [currentSet[j], currentSet[i]];
+    }
+    loadCard(currentSet);
+    //currentCard_Index = (currentCard_Index + 1) % currentSet.length;
+    //loadCard(currentCard_Index);
+  });
+
+  /*document.getElementById("hear-note").addEventListener("click", ()... -> also works */
+  // this button will, when clicked will let the user hear how the note should sound
   play_audio.addEventListener("click", () => {
     const card = currentSet[currentCard_Index];
     const audio = new Audio(card.audio);
     audio.play();
   });
+
+  /* Activating the buttons for the differnet set of cards
+     when clicked the cards will then load onto the screen 
+  */
   document
     .getElementById("low-range")
     .addEventListener("click", () => switchRange("low"));
@@ -191,4 +225,54 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", () => switchRange("high_cards"));
 
   loadCard(currentCard_Index);
+
+  // this is to try to record the audio
+  const rec_bttn = document.querySelector("#record");
+  rec_bttn.addEventListener("click", ToggleMic);
+
+  function SetupAudio() {
+    console.log("Setup");
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: true,
+        })
+        .then(SetupStream)
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }
+
+  SetupAudio();
+
+  function SetupStream(stream) {
+    recorder = new MediaRecorder(stream);
+    recorder.ondataavailable = (e) => {
+      chunks.push(e.data);
+    };
+
+    recorder.onstop = (e) => {
+      const blob = new Blob(chunks, { type: "audio/ogg codecs=opus" });
+      chunks = [];
+      const audioUrl = window.URL.createObjectURL(blob);
+      playback.src = audioUrl;
+    };
+    can_record = true;
+  }
+
+  function ToggleMic() {
+    if (!recordAudio) return;
+
+    recording = !recording;
+
+    if (recording) {
+      chunks = [];
+      recorder.start();
+      (rec_bttn.classList, add("is-recording"));
+    } else {
+      recorder.stop();
+      rec_bttn.classList.remove("is-recording");
+    }
+  }
 });

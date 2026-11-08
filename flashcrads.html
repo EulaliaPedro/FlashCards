@@ -6,7 +6,7 @@
 
     <title>Flashcard Example</title>
 
-    <link rel="stylesheet" href="test.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="note-range">
@@ -25,19 +25,21 @@
       </div>
 
       <div id="buttons">
-        <div id="option">
-          <button id="back-card">Shuffle</button>
-          <button id="next-card">Next</button>
+        <div id="row1">
+          <button id="back-card">Back</button>
+          <button id="hear-note">Note</button>
         </div>
         <div id="shuffle">
           <button id="shuffle-card">Shuffle</button>
         </div>
-        <div id="audio">
-          <button id="hear-note">Note</button>
-          <button id="record">Record</button>
+        <div id="row2">
+          <button id="next-card">Next</button>
+          <button id="record">
+            <span class="rec">Record</span>
+          </button>
         </div>
       </div>
     </div>
-    <script src="test.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
