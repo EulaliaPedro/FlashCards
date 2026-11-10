@@ -155,25 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const answerImg = document.getElementById("answer-img");
   const play_audio = document.getElementById("hear-note");
 
-  // this function will allow the cards to appear on the screen
-  function loadCard() {
-    const card = currentSet[currentCard_Index];
-    questionElement.innerText = card.question;
-    answerImg.src = card.answer;
-    flashcardElement.classList.remove("is-flipped"); //will show the front of the card wil each switch
-  }
-
-  //in this function, based on the card set chosen, the cards in the set will appear
-  function switchRange(setName) {
-    currentSet = card_Sets[setName];
-    currentCard_Index = 0;
-    loadCard(currentCard_Index);
-  }
-
-  //WANT TO USE THIS FOR THE SHUFFLE FEATURE
-  //document.getElementById("shuffle-card").addEventListener("click", () => {
-  //  flashcardElement.classList.toggle("is-flipped");
-  //});
+  loadCard(currentCard_Index); // prints the default card
 
   // WHEN THE FLASHCARD IS CLICKED IT WILL FLIPP and show the answer
   flashcardElement.addEventListener("click", () => {
@@ -198,9 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const j = Math.floor(Math.random() * (i + 1));
       [currentSet[i], currentSet[j]] = [currentSet[j], currentSet[i]];
     }
-    loadCard(currentSet);
-    //currentCard_Index = (currentCard_Index + 1) % currentSet.length;
-    //loadCard(currentCard_Index);
+    currentCard_Index = 0;
+    loadCard(currentCard_Index);
   });
 
   /*document.getElementById("hear-note").addEventListener("click", ()... -> also works */
@@ -224,7 +205,25 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("higher-range")
     .addEventListener("click", () => switchRange("high_cards"));
 
-  loadCard(currentCard_Index);
+  // this function will allow the cards to appear on the screen
+  function loadCard() {
+    const card = currentSet[currentCard_Index];
+    questionElement.innerText = card.question;
+    answerImg.src = card.answer;
+    flashcardElement.classList.remove("is-flipped"); //will show the front of the card wil each switch
+  }
+
+  //in this function, based on the card set chosen, the cards in the set will appear
+  function switchRange(setName) {
+    currentSet = card_Sets[setName];
+    currentCard_Index = 0;
+    loadCard(currentCard_Index);
+  }
+
+  //WANT TO USE THIS FOR THE SHUFFLE FEATURE
+  //document.getElementById("shuffle-card").addEventListener("click", () => {
+  //  flashcardElement.classList.toggle("is-flipped");
+  //});
 
   // this is to try to record the audio
   const rec_bttn = document.querySelector("#record");

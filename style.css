@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  background-image: url("cat_bg.jpeg");
+  background-image: url("back_ground/cat_bg.jpeg");
   height: 100vh;
 }
 
@@ -22,7 +22,7 @@ body {
   align-items: center;
   box-sizing: border-box;
   text-align: center;
-  background-image: url("fish_bg.jpeg");
+  background-image: url("back_ground/fish_bg.jpeg");
   padding: 40px;
   border-radius: 24px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 20px;
